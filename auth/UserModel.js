@@ -23,14 +23,22 @@ UserSchema.pre('save', function(next) {
       return next(err);
     }
 
-    this.password = hash;
+    this.password = hash; // schema
 
     return next();
   });
 });
 
+// are executed on a mongoose document = instance of a model
 UserSchema.methods.isPasswordValid = function(passwordGuess) {
   return bcrypt.compare(passwordGuess, this.password);
 };
+
+// executed on the model, not on the document
+// UserSchema.statics.greet = function(id, passwordGuess) {
+//   // find the user document using the id
+//   // check the password using bcrypt
+//   return bcrypt.compare(passwordGuess, user.password);
+// };
 
 module.exports = mongoose.model('User', UserSchema);
